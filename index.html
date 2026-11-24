@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanctuary Builds — Diablo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="pagina">
+  <header class="topo">
+    <div class="marca">
+      <h1>Build planner</h1>
+      <span class="subtitulo">Planejador de Builds (Front-End)</span>
+    </div>
+
+    <nav aria-label="Navegação principal">
+      <ul class="menu-lista">
+        <li><button type="button" class="nav-btn ativo" data-tela="busca">Explorar Builds</button></li>
+        <li><button type="button" class="nav-btn" data-tela="builder">Montar Build</button></li>
+        <li><button type="button" class="nav-btn" data-tela="perfil">Meu Perfil</button></li>
+        <li><button type="button" class="nav-btn" data-tela="login" id="btn-nav-login">Login</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="conteudo">
+    <!-- Tela de loigin -->
+    <section id="tela-login" class="tela oculta" aria-labelledby="titulo-login">
+      <div class="card-painel estreito">
+        <h2 id="titulo-login">Acessar Conta</h2>
+        <p class="dica-login"><strong>Dica:</strong> login — <code>login</code> | senha — <code>password</code></p>
+
+        <form id="form-login" class="formulario">
+          <fieldset class="grupo-campos">
+            <legend>Credenciais</legend>
+
+            <label for="login-usuario">
+              Login:
+              <input type="text" id="login-usuario" name="usuario" placeholder="Digite: login" />
+            </label>
+
+            <label for="login-senha">
+              Senha:
+              <input type="password" id="login-senha" name="senha" placeholder="Digite: password" />
+            </label>
+          </fieldset>
+
+          <button type="submit" class="btn-primario">Entrar</button>
+          <p id="msg-login" class="mensagem-feedback" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- procurar builds -->
+    <section id="tela-busca" class="tela" aria-labelledby="titulo-busca">
+      <div class="cabecalho-secao">
+        <h2 id="titulo-busca">Builds da Comunidade</h2>
+        <p id="resumo-busca" class="contador-info"></p>
+      </div>
+
+      <section class="controles" aria-label="Filtros de busca">
+        <label for="campo-busca">
+          Buscar build:
+          <input type="text" id="campo-busca" placeholder="Nome, autor ou descrição..." />
+        </label>
+
+        <label for="filtro-classe">
+          Classe:
+          <select id="filtro-classe">
+            <option value="todas">Todas as classes</option>
+          </select>
+        </label>
+      </section>
+
+      <section id="grade-builds" class="grade-cards" aria-label="Lista de builds"></section>
+    </section>
+
+    <!-- build -->
+    <section id="tela-builder" class="tela oculta" aria-labelledby="titulo-builder">
+      <div class="cabecalho-secao">
+        <h2 id="titulo-builder">Editor de Build</h2>
+        <div class="painel-pontos">
+          <span>Pontos de Habilidade Restantes:</span>
+          <strong id="pontos-restantes">45</strong>
+          <button type="button" id="btn-reset-pontos" class="btn-secundario">Zerar Pontos</button>
+        </div>
+      </div>
+
+      <form id="form-build" class="formulario-build">
+        <fieldset class="grupo-campos">
+          <legend>Informações da Build</legend>
+
+          <div class="linha-dupla">
+            <label for="nome-build">
+              Nome da Build:
+              <input type="text" id="nome-build" placeholder="Ex.: Build Teste 01" />
+            </label>
+
+            <label for="seletor-classe">
+              Classe:
+              <select id="seletor-classe">
+                <option value="druida">Druida</option>
+                <option value="bruxo">Bruxo</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- skilltree -->
+        <fieldset class="grupo-campos">
+          <legend>Árvores de Habilidades (Nível 0 a 15)</legend>
+          <div id="container-arvores" class="grade-arvores"></div>
+        </fieldset>
+
+        <!-- gear -->
+        <fieldset class="grupo-campos">
+          <legend>Gear / Equipamentos</legend>
+          <div id="container-gear" class="grade-gear"></div>
+        </fieldset>
+
+        <!-- descrição -->
+        <fieldset class="grupo-campos">
+          <legend>Descrição da Build</legend>
+          <label for="descricao-build">
+            Notas, rotação e observações:
+            <textarea id="descricao-build" rows="5" placeholder="Escreva aqui a descrição da build..."></textarea>
+          </label>
+        </fieldset>
+
+        <div class="acoes-build">
+          <button type="submit" class="btn-primario">Salvar Build no Perfil</button>
+          <button type="button" id="btn-nova-build" class="btn-secundario">Limpar Build</button>
+        </div>
+
+        <p id="msg-build" class="mensagem-feedback" role="status"></p>
+      </form>
+    </section>
+
+    <!-- perfil/conta -->
+    <section id="tela-perfil" class="tela oculta" aria-labelledby="titulo-perfil">
+      <div class="cabecalho-secao">
+        <h2 id="titulo-perfil">Meu Perfil</h2>
+        <p id="status-sessao" class="contador-info"></p>
+      </div>
+
+      <div class="card-painel">
+        <h3>Minhas Builds Salvas</h3>
+        <p class="dica-login">Clique em "Abrir Build" para carregar ou editar na tela da build.</p>
+        <div id="lista-perfil-builds" class="grade-cards"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- tooltip -->
+  <aside id="tooltip-flutuante" class="tooltip oculta" aria-hidden="true"></aside>
+
+  <footer class="rodape">
+    <p>Projeto Front-End — Ciência da Computação (HTML, CSS e JavaScript)</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
