@@ -905,9 +905,30 @@ formBuild.addEventListener("submit", (event) => {
           }
         : b
     );
-    msgBuild.textContent = "Build atualizada no seu perfil!";}
+    msgBuild.textContent = "Build atualizada no seu perfil!";
+  } else {
+    const novoId = Date.now();
+    const copiaSkills = JSON.parse(JSON.stringify(estadoBuildAtual.skills));
+    const copiaGear = { ...estadoBuildAtual.gear };
+
+    const novaBuild = {
+      id: novoId,
+      titulo,
+      autor: "login",
+      classeKey,
+      classeNome,
+      descricao,
+      skills: copiaSkills,
+      gear: copiaGear
+    };
+
+    minhasBuilds.unshift(novaBuild);
+    editandoBuildId = novoId;
+    msgBuild.textContent = "Nova build salva no seu perfil!";
+  }
 
   salvarBuildsNoStorage();
+  renderizarPerfil();
 });
 
 // perfil logado
